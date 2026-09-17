@@ -1,0 +1,10 @@
+@if (loading) {
+  <p>Loading student…</p>
+} @else if (errorMessage) {
+  <p>{{ errorMessage }}</p>
+} @else if (student) {
+  <h2>{{ student.name }}</h2>
+  <p>Score: {{ student.score }}</p>
+} @else {
+  <p>Student not found.</p>
+}

@@ -1,0 +1,11 @@
+<div class="student-card">
+  <h2>{{ name }}</h2>
+
+  @if (showDetails) {
+    <p [style.color]="score > 80 ? '#00FF00' : score > 50 ? '#AACC00' : '#FF0000'">Score: {{ score }}</p>
+  }
+
+  @if (favourite){
+    <p> Favourited!</p>
+  }
+</div>

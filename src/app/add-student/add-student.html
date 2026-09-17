@@ -1,0 +1,15 @@
+<form class="student-form" 
+  [formGroup]="addStudentForm" 
+  (ngSubmit)="onSubmit()">
+    <h2>Add Student</h2>
+  <input formControlName="name" />
+  @if (addStudentForm.controls.name.invalid && addStudentForm.controls.name.touched) {
+    <p class="error-message">Name is required.</p>
+  }
+  <input formControlName="score" />
+  @if (addStudentForm.controls.score.invalid && addStudentForm.controls.score.touched) {
+    <p class="error-message">Score is required.</p>
+  }
+  <button type="submit" [disabled]="addStudentForm.invalid">Add student</button>
+</form>
+ 

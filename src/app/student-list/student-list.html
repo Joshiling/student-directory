@@ -1,0 +1,64 @@
+<header class="app-title">
+  Student Searcher
+</header>
+<div>
+  <div class = "bigCentre">
+    <input [(ngModel)]="searchTerm" placeholder="Filter">
+  </div>
+  <div class = "superCentre">
+    <button (click) = "toggleDetails()">
+      Toggle Details
+    </button>
+  </div>
+  <div class = "superCentre">
+    <button (click) = "toggleFavourites()">
+      Toggle Favourites
+    </button>
+  </div>
+  <app-add-student
+    (studentAdded)="addStudent($event.name,$event.score)">
+  </app-add-student>
+@if (loading){
+    <p class="student-count"> Loading...</p>
+} @else {
+    @if (errorMessage) {
+    <p class="student-count"> Could not load students from API - Contact your administrator.</p>
+    } @else {
+        <p class="student-count">Showing <span>{{filteredStudents.length}}</span> students of <span>{{getStudents.length}}</span></p>
+        
+        @for (student of filteredStudents; track student.name){
+            <!-- <p>
+            Name: {{student.name}}
+            </p>
+            @if (detailsOn){
+            <p>
+            Score: {{student.score}}
+            </p>
+            } -->
+            <section>
+              
+              <a [routerLink]="['/student',student.id]">
+                <app-student-card
+                [name] = "student.name"
+                [score] = "student.score"
+                [favourite] = "student.favourite"
+                [showDetails]= "detailsOn">
+                </app-student-card>
+              </a>
+              <button (click)="favouriteStudent(student.id)">
+                @if (student.favourite){
+                  Unfavourite
+                } @else {
+                  Favourite
+                }
+              </button>
+            </section>
+
+
+        }
+    }
+}
+
+
+
+ 
