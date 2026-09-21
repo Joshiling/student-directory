@@ -4,7 +4,7 @@
   <p>{{ errorMessage }}</p>
 } @else if (student) {
   <h2>{{ student.name }}</h2>
-  <p>Score: {{ student.score }}</p>
+  <p  [style.color]="student.score > 80 ? '#00FF00' : student.score > 50 ? '#AACC00' : '#FF0000'">Score: {{ student.score }}</p>
 } @else {
   <p>Student not found.</p>
 }
