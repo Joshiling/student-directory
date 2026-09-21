@@ -18,7 +18,7 @@ export class StudentDetail {
   errorMessage = '';
 
   /**
-   * Used to initialise the component
+   * Used to initialise the component B
    */
   constructor() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
