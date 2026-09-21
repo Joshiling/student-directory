@@ -17,6 +17,9 @@ export class StudentDetail {
   loading = true;
   errorMessage = '';
 
+  /**
+   * Used to initialise the component
+   */
   constructor() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.studentService.getStudentById(id).subscribe({
