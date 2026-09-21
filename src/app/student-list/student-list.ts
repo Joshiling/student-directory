@@ -28,6 +28,9 @@ export class StudentList {
   loading: boolean;
   favourite = false;
 
+  /**
+   * Used to initialise the component, fetches student data from the student service and sets up the component state
+   */
   constructor(){
     this.loading = true;
     this.student.getStudents().subscribe({
