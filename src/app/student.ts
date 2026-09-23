@@ -5,14 +5,22 @@ import { Observable, map } from 'rxjs';
 interface ApiUser {
   id: number;
   name: string;
+  score:number,
+  favourite:boolean
 }
+
+
+  
+
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class Student {
   private http = inject(HttpClient);
-  private apiUrl = 'https://jsonplaceholder.typicode.com/users';
+  private apiUrl = 'http://localhost:5295/Student';
+
 
   getStudents(): Observable<{ id: number; name: string; score: number }[]> {
     return this.http.get<ApiUser[]>(this.apiUrl).pipe(
@@ -21,7 +29,8 @@ export class Student {
           id: user.id,
           name: user.name,
           // the mock API has no score field, so we fake one
-          score: Math.floor(Math.random() * 41) + 60,
+          score: user.score,
+          favourite:user.favourite
         }))
       )
     );
@@ -32,9 +41,18 @@ export class Student {
       map((user) => ({
         id: user.id,
         name: user.name,
-        score: Math.floor(Math.random() * 41) + 60,
+        score: user.score,
+        favourite:user.favourite
       }))
     );
+  }
+
+  addStudent(name:String, score:number){
+    return this.http.post<ApiUser>(`${this.apiUrl}`,{"name":name, "score":score});
+  }
+
+  toggleFavourite(id:number){
+    return this.http.put<ApiUser>(`${this.apiUrl}/${id}/favourite`,{});
   }
 }
  

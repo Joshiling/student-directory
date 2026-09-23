@@ -34,7 +34,7 @@ export class StudentList {
   constructor(){
     this.loading = true;
     this.student.getStudents().subscribe({
-      next: (data: any[]) => { this.students = data.map((item)=>({...item,favourite:false})); this.loading = false; this.cdr.markForCheck();},
+      next: (data: any[]) => { this.students = data; this.loading = false; this.cdr.markForCheck();},
       error: (err: any) => { this.errorMessage = `Could not load students: ${err}`; this.loading = false; this.cdr.markForCheck();},
     });
   }
@@ -60,30 +60,31 @@ toggleFavourites() {
   }
 
   favouriteStudent(id:number){
-    let student = this.students.find(student => student.id===id);
-    if (student){
-      console.log(student.favourite);
-      student.favourite=!student.favourite;
-    }
+
+    this.loading = true;
+    this.student.toggleFavourite(id).subscribe({
+      next: () => {
+        this.student.getStudents().subscribe({
+          next: (data) => { this.students = data;this.loading = false; this.cdr.markForCheck();},
+          error: (err: any) => { this.errorMessage = `Could not load students: ${err}`; this.loading = false; this.cdr.markForCheck();},
+        });
+      }
+    });
+    console.log(this.students);
   }
   addStudent(name:string, score:number){
-    console.log("adding guy");
-    let id = -1;
-    if (this.students.length == 0){
-      id = 1
-    } else {
-      id = Math.max(...this.students.map(student => student.id)) + 1;
-    }
-    this.students.push(
-        {
-          id:id,
-          name:name,
-          score:score,
-          favourite:false
-        }
-      )
+    this.loading = true;
+    this.student.addStudent(name, score).subscribe({
+      next: () => {
+        this.student.getStudents().subscribe({
+          next: (data) => { this.students = data;this.loading = false; this.cdr.markForCheck();},
+          error: (err: any) => { this.errorMessage = `Could not load students: ${err}`; this.loading = false; this.cdr.markForCheck();},
+        });
+      }
+    });
   }
-    toggleDetails() {
+  
+  toggleDetails() {
       this.detailsOn = !this.detailsOn;
     }
 }
